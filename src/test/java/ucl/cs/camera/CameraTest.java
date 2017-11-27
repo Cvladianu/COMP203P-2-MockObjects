@@ -27,4 +27,15 @@ public class CameraTest {
     context.assertIsSatisfied();
   }
 
+  @Test
+  public void switchingTheCameraOffPowersDownTheSensor() {
+
+    context.checking(new Expectations() {{
+      oneOf(sensor).powerDown();
+    }});
+
+    camera.powerOff();
+
+    context.assertIsSatisfied();
+  }
 }

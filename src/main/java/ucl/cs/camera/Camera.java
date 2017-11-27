@@ -20,7 +20,7 @@ public class Camera implements WriteListener {
   }
 
   public void powerOff() {
-    // not implemented
+    sensor.powerDown();
   }
 
   @Override
