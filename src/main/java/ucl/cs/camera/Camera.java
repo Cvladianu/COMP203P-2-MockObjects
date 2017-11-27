@@ -5,6 +5,7 @@ public class Camera implements WriteListener {
   private MemoryCard memoryCard;
   private Sensor sensor;
   private boolean powerOn = false;
+  private boolean writing = false;
 
   public Camera(MemoryCard memoryCard, Sensor sensor)
   {
@@ -17,6 +18,7 @@ public class Camera implements WriteListener {
     {
       byte[] IMG = sensor.readData();
       memoryCard.write(IMG);
+      this.writing=true;
     }
   }
 
@@ -26,7 +28,8 @@ public class Camera implements WriteListener {
   }
 
   public void powerOff() {
-    sensor.powerDown();
+    if(this.writing==false)
+      sensor.powerDown();
   }
 
   public boolean getPower()
@@ -36,7 +39,11 @@ public class Camera implements WriteListener {
   @Override
   public void writeComplete()
   {
-
+    if(this.writing)
+    {
+      this.writing=false;
+      sensor.powerDown();
+    }
   }
 }
 
